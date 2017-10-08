@@ -1,0 +1,6 @@
+c:\users\vincent\documents\visual studio 2017\Projects\SouthEastCon2017\SECDAL\obj\Debug\SECDAL.csprojResolveAssemblyReference.cache
+c:\users\vincent\documents\visual studio 2017\Projects\SouthEastCon2017\SECDAL\bin\Debug\SECDAL.dll
+c:\users\vincent\documents\visual studio 2017\Projects\SouthEastCon2017\SECDAL\bin\Debug\SECDAL.pdb
+c:\users\vincent\documents\visual studio 2017\Projects\SouthEastCon2017\SECDAL\obj\Debug\SECDAL.dll
+c:\users\vincent\documents\visual studio 2017\Projects\SouthEastCon2017\SECDAL\obj\Debug\SECDAL.pdb
+C:\Users\Vincent\documents\visual studio 2017\Projects\SouthEastCon2017\SECDAL\obj\Debug\SECDAL.csproj.CoreCompileInputs.cache

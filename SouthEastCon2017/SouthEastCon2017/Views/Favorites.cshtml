@@ -1,0 +1,134 @@
+﻿@{
+   Layout = null;
+   ViewBag.Title = "Favorites";
+ }
+
+<h2>@ViewBag.Title</h2>
+
+Yesterday's date via model: @Model.strYesterdaysDate<p></p>
+Today's date via Viewbag  : @ViewBag.strCurDate<p></p>
+
+<select id="lstPeople" class="dropdown" onchange="getFavorites();">
+</select><p></p>
+<label id="labelFavorites" style="left: 220px;  top: 220px; position: absolute;font: 14px 'Helvetica Neue', 'Arial',
+                                  'Helvetica', 'Geneva', sans-serif; Color: Black"></label>
+
+<link href="@Url.Content("~/Content/themes/base/minified/jquery-ui.min.css")" rel="stylesheet" />
+<!-- Required jQuery and jQuery UI Javascript references -->
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+<script src="@Url.Content("~/Scripts/jquery-ui-1.12.0.min.js")"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function ()
+    {
+        var i = 0;
+        var select = document.getElementById('lstPeople');
+        var strFullName = "";
+        var intPeopleID = -1;
+        var intTotPeople = @Model.strLastNames.Length;
+        var strLastNames = [];
+        var strFirstNames = [];
+        var intPersonID = [];
+
+        @foreach (var d in Model.strLastNames)
+        {
+            @:strLastNames.push("@d");
+        }
+        @foreach (var d in Model.strFirstNames)
+        {
+            @:strFirstNames.push("@d");
+        }
+       
+        @foreach (var d in Model.intPersonID)
+        {
+            @:intPersonID.push(@d.ToString());
+        }
+        select.options[select.options.length] = new Option("None Selected",0);
+        for (i = 0;i<intTotPeople;i++)
+        {
+            strFullName = strLastNames[i] + ", " + strFirstNames[i];
+            intCurPeopleID = intPersonID[i];
+            select.options[select.options.length] = new Option(strFullName,intCurPeopleID);
+        }
+    });
+
+    function displayFavorites(results)
+    {        
+        var results_table = '<table id="table" style="top:20px;left:100px;width:400px;position: absolute">';
+        results_table += '<tr>';
+        results_table += '<th align="left">';
+        results_table +=   'Type of Favorite';
+        results_table += '</th>';
+        results_table += '<th align="left">';
+        results_table += 'Description';
+        results_table += '</th>';
+        results_table += '</tr>';        
+        results_table += '<tr>';
+        results_table += '<td>';
+        results_table += 'Favorite Movie';
+        results_table += '</td>';
+        results_table += '<td>';
+        results_table += results.favoriteinfo.strFavMovie;
+        results_table += '</td>';
+        results_table += '</tr>';
+        results_table += '<tr>';
+        results_table += '<td>';
+        results_table += 'Favorite Artist/Band';
+        results_table += '</td>';
+        results_table += '<td>';
+        results_table += results.favoriteinfo.strFavBand;
+        results_table += '</td>';
+        results_table += '</tr>';
+
+        results_table += '<tr>';
+        results_table += '<td>';
+        results_table += 'Favorite Food';
+        results_table += '</td>';
+        results_table += '<td>';
+        results_table += results.favoriteinfo.strFavFood;
+        results_table += '</td>';
+        results_table += '</tr>';
+        
+        results_table += '<tr>';
+        results_table += '<td>';
+        results_table += 'Favorite Pet';
+        results_table += '</td>';
+        results_table += '<td>';
+        results_table += results.favoriteinfo.strFavPet;
+        results_table += '</td>';
+        results_table += '</tr>';
+       
+        results_table += '</table>';
+        document.getElementById("labelFavorites").innerHTML = results_table;
+    }
+
+    function getFavorites()
+    {
+        try
+        {
+            var intLstIndex = document.getElementById("lstPeople").selectedIndex;
+            var userID = document.getElementById("lstPeople").options[intLstIndex].value;
+           
+            var baseURL = "@Url.Content("~")";
+            $.ajax({
+                url: baseURL + "Favorites/getFavorites",
+                type: "POST",
+                data: { 'userID': userID },
+                success: function(data)
+                {
+                    displayFavorites(data);
+                },
+                error: function (req, status, error)
+                {
+                    alert('Unable to get favorites');
+                }
+            });
+        }
+        catch (e)
+        {
+            alert(e.message);
+        }
+        return false;
+    }
+</script>
